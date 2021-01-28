@@ -7,4 +7,4 @@ SSH_KEY=$1_SERVER_KEY
 echo "Try copy ssh key to scope $1 and host ${!SSH_HOST}:${!SSH_PORT}"
 ssh-copy-id -p ${!SSH_PORT} -i ${!SSH_KEY}.pub user@${!SSH_HOST}
 
-ssh -i ${!SSH_KEY} -p ${!SSH_PORT} user@${!SSH_HOST} 'echo Connection success'
+./ssh.sh $1 'echo Connection success'

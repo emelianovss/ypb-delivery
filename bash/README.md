@@ -7,4 +7,5 @@
     Выполнить:
 `./env.sh stage.env ./add_nginx_key.sh WEB ABF5BD827BD9BF62`
 3. `./env.sh stage.env ./install_postgres.sh`
-3. `./env.sh stage.env ./install_env.sh`
+4. `./env.sh stage.env ./install_env.sh`
+5. `./env.sh stage.env ./migrate.sh`

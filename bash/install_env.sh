@@ -28,6 +28,7 @@ Requires=gunicorn.socket
 After=network.target
 
 [Service]
+Environment=DJANGO_SETTINGS_MODULE=project.current_settings
 Type=notify
 User=user
 Group=user
@@ -62,6 +63,25 @@ WantedBy=sockets.target
 rm tmp_gunicorn_socket_service
 
 ./scp.sh WEB ./src /home/user/application -r
+echo """from project.settings import *
+
+STATIC_ROOT = '/var/www/static'
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': '$DB_NAME',
+        'USER': '$DB_USER',
+        'PASSWORD': '$DB_PASSWORD',
+        'HOST': '$DB_SERVER_HOST',
+        'PORT': 5432,
+    }
+}
+""" > tmp_settings
+./scp.sh  WEB tmp_settings /home/user/application/project/current_settings.py
+rm tmp_settings
+
+./ssh.sh WEB "sudo mkdir -p /var/www/static && sudo chown -R user:nginx /var/www"
+./ssh.sh WEB "source venv/bin/activate && cd application && DJANGO_SETTINGS_MODULE=project.current_settings python manage.py collectstatic"
 ./ssh.sh WEB "sudo -u nginx curl -I --unix-socket /run/gunicorn.sock localhost"
 
 echo """
@@ -74,7 +94,7 @@ server {
     }
 
     location /static {
-        root /var/www/static;
+        root /var/www/;
     }
 
 }
