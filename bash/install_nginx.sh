@@ -1,15 +1,21 @@
 #!/bin/bash
 
-SSH_PORT=$1_SERVER_SSH_PORT
-SSH_HOST=$1_SERVER_HOST
-SSH_KEY=$1_SERVER_KEY
-release=$(ssh -i ${!SSH_KEY} -p ${!SSH_PORT} user@${!SSH_HOST} \
-          "cat /etc/os-release | grep UBUNTU_CODENAME | grep -o =\.* | grep -o '[[:alpha:]]*'")
+release=$(./ssh.sh WEB "lsb_release -cs" | grep -o '[[:alpha:]]*')
 
-nginx_deb="deb https://nginx.org/packages/ubuntu/ $release nginx\ndeb-src https://nginx.org/packages/ubuntu/ $release nginx"
+echo "deb https://nginx.org/packages/ubuntu/ $release nginx"  > tmp_deb
+echo "deb-src https://nginx.org/packages/ubuntu/ $release nginx"  >> tmp_deb
+./scp.sh DB tmp_deb /home/user/tmp_deb
+./ssh.sh DB "sudo mv ~/tmp_deb /etc/apt/sources.list.d/nginx.list"
+rm tmp_deb
 
-deb_command=$(echo "echo -e '$nginx_deb' | sudo tee /etc/apt/sources.list.d/nginx.list && sudo apt-get update && sudo apt-get install -y nginx && sudo service nginx start && sudo service nginx status")
+command=$(echo "
+    wget --quiet -O - https://nginx.org/packages/keys/nginx_signing.key | sudo apt-key add -
+    && sudo apt-get update 
+    && sudo dpkg --configure -a
+    && sudo apt-get install -y nginx 
+    && sudo service nginx start 
+    && sudo service nginx status
+")
 
-
-ssh -t -i ${!SSH_KEY} -p ${!SSH_PORT} user@${!SSH_HOST} $deb_command
+./ssh.sh WEB $command
 

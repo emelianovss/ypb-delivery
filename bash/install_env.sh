@@ -62,7 +62,7 @@ WantedBy=sockets.target
 rm tmp_gunicorn_socket_service
 
 ./scp.sh WEB ./src /home/user/application -r
-./ssh.sh WEB "sudo -u www-data curl -I --unix-socket /run/gunicorn.sock localhost"
+./ssh.sh WEB "sudo -u nginx curl -I --unix-socket /run/gunicorn.sock localhost"
 
 echo """
 server {
