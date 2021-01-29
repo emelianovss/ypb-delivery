@@ -79,7 +79,6 @@ DATABASES = {
 rm tmp_settings
 
 ./ssh.sh WEB "sudo mkdir -p $WEB_STATIC_FOLDER/static && sudo chown -R $WEB_SERVER_SSH_USER:nginx $WEB_STATIC_FOLDER"
-./ssh.sh WEB "source $WEB_VENV_NAME/bin/activate && cd $WEB_APP_FOLDER && DJANGO_SETTINGS_MODULE=project.current_settings python manage.py collectstatic --no-input"
 ./ssh.sh WEB "sudo -u nginx curl -I --unix-socket /run/gunicorn.sock localhost"
 
 echo """

@@ -9,3 +9,5 @@
 3. `./env.sh stage.env ./install_postgres.sh`
 4. `./env.sh stage.env ./install_env.sh`
 5. `./env.sh stage.env ./migrate.sh`
+6. `./env.sh stage.env ./static.sh`
+7. `./env.sh stage.env ./code.sh`
