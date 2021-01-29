@@ -1,0 +1,6 @@
+<h1>Заголовок</h1>
+<img src="/static/logo.webp"/>
+{% for post in posts %}
+<h4 style="border-bottom: 1px solid green;">{{ post.id}}. {{ post.title}}</h4>
+<p>{{ post.text }}</p>
+{% endfor %}
