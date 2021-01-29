@@ -1,0 +1,1 @@
+1. `ansible-playbook -i environments/stage/hosts install_key.yml --ask-pass`

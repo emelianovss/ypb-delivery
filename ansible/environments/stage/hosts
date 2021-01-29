@@ -1,0 +1,8 @@
+[all]
+my_server 
+
+[web]
+my_server
+
+[db]
+my_server

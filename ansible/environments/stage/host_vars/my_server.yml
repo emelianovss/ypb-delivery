@@ -1,0 +1,8 @@
+---
+key_file: files/example
+
+ansible_host: localhost
+ansible_port: 8022
+ansible_user: user
+ansible_python_interpreter: /usr/bin/python3
+ansible_ssh_private_key_file:  "{{ key_file }}"

@@ -1,0 +1,15 @@
+- hosts: all
+  vars:
+    ansible_ssh_private_key_file:
+  tasks:
+    - name: Set authorized key took from file
+      authorized_key:
+        user: "{{ ansible_user }}"
+        state: present
+        key: "{{ lookup('file', '{{ key_file }}.pub') }}"
+
+
+- hosts: all
+  tasks:
+    - debug:
+        msg: "Key on {{ inventory_hostname }} install succcess"
