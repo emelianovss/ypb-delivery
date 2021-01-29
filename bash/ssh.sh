@@ -3,5 +3,6 @@
 SSH_PORT=${@:1:1}_SERVER_SSH_PORT
 SSH_HOST=${@:1:1}_SERVER_HOST
 SSH_KEY=${@:1:1}_SERVER_KEY
+SSH_USER=${@:1:1}_SERVER_SSH_USER
 
-ssh -t -i ${!SSH_KEY} -p ${!SSH_PORT} user@${!SSH_HOST} ${@:2}
+ssh -t -i ${!SSH_KEY} -p ${!SSH_PORT} ${!SSH_USER}@${!SSH_HOST} ${@:2}

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./ssh.sh WEB "source venv/bin/activate && cd application && DJANGO_SETTINGS_MODULE=project.current_settings python manage.py migrate"
+./ssh.sh WEB "source $WEB_VENV_NAME/bin/activate && cd $WEB_APP_FOLDER && DJANGO_SETTINGS_MODULE=project.current_settings python manage.py migrate"

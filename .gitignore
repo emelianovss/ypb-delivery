@@ -129,3 +129,6 @@ dmypy.json
 .pyre/
 tmp_*
 !docs/dist
+
+*.env
+!stage.env

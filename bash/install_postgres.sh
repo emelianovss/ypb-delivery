@@ -3,7 +3,7 @@
 release=$(./ssh.sh DB "lsb_release -cs" | grep -o '[[:alpha:]]*')
 
 echo "deb http://apt.postgresql.org/pub/repos/apt $release-pgdg main"  > tmp_deb
-./scp.sh DB tmp_deb /home/user/tmp_deb
+./scp.sh DB tmp_deb /home/$DB_SERVER_SSH_USER/tmp_deb
 ./ssh.sh DB "sudo mv ~/tmp_deb /etc/apt/sources.list.d/pgdg.list"
 rm tmp_deb
 

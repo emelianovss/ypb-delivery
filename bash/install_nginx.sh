@@ -4,7 +4,7 @@ release=$(./ssh.sh WEB "lsb_release -cs" | grep -o '[[:alpha:]]*')
 
 echo "deb https://nginx.org/packages/ubuntu/ $release nginx"  > tmp_deb
 echo "deb-src https://nginx.org/packages/ubuntu/ $release nginx"  >> tmp_deb
-./scp.sh DB tmp_deb /home/user/tmp_deb
+./scp.sh DB tmp_deb /home/$WEB_SERVER_SSH_USER/tmp_deb
 ./ssh.sh DB "sudo mv ~/tmp_deb /etc/apt/sources.list.d/nginx.list"
 rm tmp_deb
 
