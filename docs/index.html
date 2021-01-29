@@ -34,26 +34,33 @@
 					Backend #08
 				</script>
 			</section>
+
+			<section data-markdown>
+				<script type="text/template">
+					### Зачем?
+				</script>
+			</section>
+
 			<section>
-			<section data-markdown>
-				<script type="text/template">
-					### Что мы будем делать?
-					1. Устанавливать дополнительное ПО и зависимости
-					2. Настраивать дополнительное ПО
-					2. Запускать приложение
-					3. Обновлять приложение
-				</script>
-			</section>
-			<section data-markdown>
-				<script type="text/template">
-					### Дополнительное ПО и зависимости
-					1. WEB server - nginx
-					2. WSGI server - gunicorn
-					3. СУБД - PostgreSQL
-					4. Сервер приложений Django
-					5. Управление процессом systemd
-				</script>
-			</section>
+				<section data-markdown>
+					<script type="text/template">
+						### Что мы будем делать?
+						1. Устанавливать дополнительное ПО и зависимости
+						2. Настраивать дополнительное ПО
+						2. Запускать приложение
+						3. Обновлять приложение
+					</script>
+				</section>
+				<section data-markdown>
+					<script type="text/template">
+						### Дополнительное ПО и зависимости
+						1. WEB server - nginx
+						2. WSGI server - gunicorn
+						3. СУБД - PostgreSQL
+						4. Сервер приложений Django
+						5. Управление процессом systemd
+					</script>
+				</section>
 			</section>
 
 			<section data-markdown>
@@ -61,12 +68,73 @@
 					### Как мы будем это делать?
 					От простого к сложному
 					1. Bash
-					2. Python
-					3. Ansible
+					2. Ansible
+				</script>
+			</section>
+
+			<section>
+				<h2>Какие термины будем использовать</h2>
+				<p class="fragment">Окружения</p>
+				<p class="fragment">Роли</p>
+				<p class="fragment">Задачи</p>
+			</section>
+
+			<section>
+				<h2>Покажите мне код!</h2>
+				<a href="https://github.com/emelianovss/ypb-delivery">https://github.com/emelianovss/ypb-delivery</a>
+			</section>
+
+			<section data-markdown>
+				<script type="text/template">
+					Окружения
+					```bash
+					bash/stage.env
+					```
+				</script>
+			</section>
+
+			<section data-markdown>
+				<script type="text/template">
+					Роли
+					```bash [1-9|10-18]
+					# Настройки WEB
+					WEB_SERVER_HOST=localhost
+					WEB_SERVER_SSH_PORT=8022
+					WEB_SERVER_SSH_USER=user
+					WEB_SERVER_KEY=files/example
+					WEB_VENV_NAME=venv
+					WEB_APP_FOLDER=application
+					WEB_STATIC_FOLDER=/var/www
+
+					# Настройки DB
+					DB_SERVER_HOST=localhost
+					DB_SERVER_SSH_PORT=8022
+					DB_SERVER_SSH_USER=user
+					DB_SERVER_KEY=files/example
+					DB_HOST=localhost
+					DB_USER=postgres
+					DB_PASSWORD=postgres
+					DB_NAME=postgres
+					```
+				</script>
+			</section>
+
+			<section data-markdown>
+				<script type="text/template">
+					Задачи
+					```bash [1|2|3|4|5|6|7]
+					./env.sh stage.env ./install_key.sh WEB
+					./env.sh stage.env ./install_nginx.sh
+					./env.sh stage.env ./install_postgres.sh
+					./env.sh stage.env ./install_env.sh
+					./env.sh stage.env ./migrate.sh
+					./env.sh stage.env ./static.sh
+					./env.sh stage.env ./code.sh
+					```
 				</script>
 			</section>
 			
-			</section>
+		</section>
 				<section>
 					<a href="https://revealjs.com">
 						<img src="https://static.slid.es/reveal/logo-v1/reveal-white-text.svg" alt="reveal.js logo" style="height: 180px; margin: 0 auto 4rem auto; background: transparent;" class="demo-logo">
