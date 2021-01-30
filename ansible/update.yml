@@ -20,7 +20,7 @@
       tags: [static]
     
     - service:
-        name: nginx
+        name: gunicorn
         state: restarted
       become: yes
       tags: [restart]

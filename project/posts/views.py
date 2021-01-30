@@ -11,4 +11,4 @@ def view(request):
     })
 
 def status(request):
-    return JsonResponse({'status': settings.DEBUG})
+    return JsonResponse({'status': settings.DEBUG })
