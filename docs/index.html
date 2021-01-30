@@ -84,54 +84,104 @@
 				<a href="https://github.com/emelianovss/ypb-delivery">https://github.com/emelianovss/ypb-delivery</a>
 			</section>
 
-			<section data-markdown>
-				<script type="text/template">
-					Окружения
-					```bash
-					bash/stage.env
-					```
-				</script>
+			<section>
+				<section data-markdown>
+					<script type="text/template">
+						### Bash
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						Окружения
+						```bash
+						bash/stage.env
+						```
+					</script>
+				</section>
+				<section data-markdown>
+					<script type="text/template">
+						Роли
+						```bash [1-9|10-18]
+						# Настройки WEB
+						WEB_SERVER_HOST=localhost
+						WEB_SERVER_SSH_PORT=8022
+						WEB_SERVER_SSH_USER=user
+						WEB_SERVER_KEY=files/example
+						WEB_VENV_NAME=venv
+						WEB_APP_FOLDER=application
+						WEB_STATIC_FOLDER=/var/www
+
+						# Настройки DB
+						DB_SERVER_HOST=localhost
+						DB_SERVER_SSH_PORT=8022
+						DB_SERVER_SSH_USER=user
+						DB_SERVER_KEY=files/example
+						DB_HOST=localhost
+						DB_USER=postgres
+						DB_PASSWORD=postgres
+						DB_NAME=postgres
+						```
+					</script>
+				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+						Задачи
+						```bash [1|2|3|4|5|6|7]
+						./env.sh stage.env ./install_key.sh WEB
+						./env.sh stage.env ./install_nginx.sh
+						./env.sh stage.env ./install_postgres.sh
+						./env.sh stage.env ./install_env.sh
+						./env.sh stage.env ./migrate.sh
+						./env.sh stage.env ./static.sh
+						./env.sh stage.env ./code.sh
+						```
+					</script>
+				</section>
 			</section>
 
-			<section data-markdown>
-				<script type="text/template">
-					Роли
-					```bash [1-9|10-18]
-					# Настройки WEB
-					WEB_SERVER_HOST=localhost
-					WEB_SERVER_SSH_PORT=8022
-					WEB_SERVER_SSH_USER=user
-					WEB_SERVER_KEY=files/example
-					WEB_VENV_NAME=venv
-					WEB_APP_FOLDER=application
-					WEB_STATIC_FOLDER=/var/www
-
-					# Настройки DB
-					DB_SERVER_HOST=localhost
-					DB_SERVER_SSH_PORT=8022
-					DB_SERVER_SSH_USER=user
-					DB_SERVER_KEY=files/example
-					DB_HOST=localhost
-					DB_USER=postgres
-					DB_PASSWORD=postgres
-					DB_NAME=postgres
-					```
-				</script>
-			</section>
-
-			<section data-markdown>
-				<script type="text/template">
-					Задачи
-					```bash [1|2|3|4|5|6|7]
-					./env.sh stage.env ./install_key.sh WEB
-					./env.sh stage.env ./install_nginx.sh
-					./env.sh stage.env ./install_postgres.sh
-					./env.sh stage.env ./install_env.sh
-					./env.sh stage.env ./migrate.sh
-					./env.sh stage.env ./static.sh
-					./env.sh stage.env ./code.sh
-					```
-				</script>
+			<section>
+				<section data-markdown>
+					<script type="text/template">
+						### Ansible
+					</script>
+				</section>
+				<section data-markdown>
+					<script type="text/template">
+						Окружения
+						```bash
+						environments/stage
+						```
+					</script>
+				</section>
+				<section data-markdown>
+					<script type="text/template">
+						Роли
+						```bash [1|2|3|4]
+						group_vars/all.yml
+						group_vars/db.yml
+						group_vars/web.yml
+						host_vars/my_server.yml
+						```
+					</script>
+				</section>
+				<section data-markdown>
+					<script type="text/template">
+						Задачи
+						```bash [2|3|4|5|6|7|8|9]
+						# ansible-playbook -i environments/stage/hosts
+						install_key.yml --ask-pass
+						install_nginx.yml --ask-become-pass
+						install_postgres.yml --ask-become-pass
+						install_env.yml --ask-become-pass
+						update.yml --tags=migrate
+						update.yml --tags=static
+						update.yml --tags=code
+						update.yml --tags=code,restart --ask-become-pass
+						```
+					</script>
+				</section>
 			</section>
 
 			</div>
