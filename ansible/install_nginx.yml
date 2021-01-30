@@ -1,0 +1,25 @@
+- hosts: web
+  tasks:
+    - name: Install, configure, and start nginx
+      block:
+        - apt_repository:
+            repo: "deb https://nginx.org/packages/ubuntu/ {{ ansible_lsb.codename }} nginx"
+            state: present
+            filename: nginx.list
+            update_cache: false
+        - apt_repository:
+            repo: "deb-src https://nginx.org/packages/ubuntu/ {{ ansible_lsb.codename }} nginx"
+            state: present
+            filename: nginx.list
+            update_cache: false
+        - apt_key:
+            url: https://nginx.org/packages/keys/nginx_signing.key
+            state: present
+        - shell: dpkg --configure -a
+        - apt:
+            name: nginx
+            update_cache: yes
+        - service:
+            name: nginx
+            state: started
+      become: yes

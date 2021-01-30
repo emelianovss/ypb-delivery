@@ -1,0 +1,46 @@
+- hosts: db
+  tasks:
+    - name: Install, configure, and start postgres
+      block:
+        - apt_repository:
+            repo: "deb http://apt.postgresql.org/pub/repos/apt {{ ansible_lsb.codename }}-pgdg main"
+            state: present
+            filename: pgdg.list
+            update_cache: false
+        - apt_key:
+            url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+            state: present
+
+        - name: Ensure a locale exists
+          locale_gen:
+            name: "{{ item }}"
+            state: present
+          with_items:
+            - ru_RU
+            - ru_RU.UTF-8  
+        
+        - name: Set locale
+          shell: update-locale LANG=ru_RU.UTF-8  
+        
+        - apt:
+            name: libicu-dev
+            update_cache: yes
+
+        - shell: dpkg --configure -a
+        - apt:
+            name: "{{ item }}"
+            update_cache: yes
+          with_items:
+            - postgresql-12
+            - libpq-dev 
+        
+        - service:
+            name: postgresql
+            state: started
+        
+        - shell: |
+            sudo -i -u {{ db_user }} psql -c "ALTER USER {{ db_user }} WITH ENCRYPTED PASSWORD '{{ db_password }}';"
+          tags: 
+            - user
+
+      become: true

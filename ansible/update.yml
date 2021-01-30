@@ -1,0 +1,26 @@
+- hosts: web
+  vars:
+    env_path: "/home/{{ ansible_user }}/{{ web_venv_name }}"
+  tasks:
+    - include_tasks: tasks/code.yml
+      tags: [code]
+    
+    - shell: "~/{{ web_venv_name }}/bin/python manage.py migrate"
+      args:
+        chdir: "{{ web_app_folder }}"
+      environment: 
+        DJANGO_SETTINGS_MODULE: project.current_settings
+      tags: [migrate]
+    
+    - shell: "~/{{ web_venv_name }}/bin/python manage.py collectstatic --no-input"
+      args:
+        chdir: "{{ web_app_folder }}"
+      environment: 
+        DJANGO_SETTINGS_MODULE: project.current_settings
+      tags: [static]
+    
+    - service:
+        name: nginx
+        state: restarted
+      become: yes
+      tags: [restart]

@@ -1,0 +1,20 @@
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+Environment=DJANGO_SETTINGS_MODULE=project.current_settings
+Type=notify
+User={{ ansible_user }}
+Group={{ ansible_user }}
+RuntimeDirectory=gunicorn
+WorkingDirectory=/home/{{ ansible_user }}/{{ web_app_folder }}
+ExecStart=/home/{{ ansible_user }}/{{ web_venv_name }}/bin/gunicorn project.wsgi
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

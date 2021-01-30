@@ -1,0 +1,4 @@
+---
+web_app_folder: application
+web_venv_name: venv
+web_static_folder: /var/www

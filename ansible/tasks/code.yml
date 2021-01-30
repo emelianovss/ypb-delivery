@@ -1,0 +1,12 @@
+---
+- name: copy code
+  copy:
+    src: src/
+    dest: "/home/{{ ansible_user }}/{{ web_app_folder }}/"
+  tags: [code]
+
+- name: create settings
+  template:
+    src: templates/current_settings.py.j2
+    dest: "/home/{{ ansible_user }}/{{ web_app_folder }}/project/current_settings.py"
+  tags: [code]
